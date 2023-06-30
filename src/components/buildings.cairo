@@ -27,3 +27,4 @@ struct Dockyard {
 struct Laboratory {
     level: u8, 
 }
+
