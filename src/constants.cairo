@@ -61,3 +61,9 @@ mod TechType {
     const THRUST_PROPULSION: u8 = 37;
     const WARP_DRIVE: u8 = 38;
 }
+
+mod MinesConst {
+    const MAX_STEEL_OVERFLOW: u128 = 17850;
+    const MAX_QUARZ_OVERFLOW: u128 = 11900;
+    const MAX_TRITIUM_OVERFLOW: u128 = 5950;
+}
