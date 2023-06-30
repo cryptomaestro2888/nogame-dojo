@@ -14,21 +14,65 @@ mod MinesUpgrade {
             let mine = get !(ctx, planet_id.into(), SteelMine);
             let cost: Cost = steel_mine_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
+            set !(
+                ctx,
+                planet_id.into(),
+                (
+                    Steel {
+                        available: available.steel - cost.steel
+                        }, Quartz {
+                        available: available.quartz - cost.quartz
+                    }
+                )
+            );
             set !(ctx, planet_id.into(), (SteelMine { level: mine.level + 1 }));
         } else if building_id == BuildingType::QUARTZ_MINE {
             let mine = get !(ctx, planet_id.into(), QuartzMine);
             let cost: Cost = quartz_mine_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
+            set !(
+                ctx,
+                planet_id.into(),
+                (
+                    Steel {
+                        available: available.steel - cost.steel
+                        }, Quartz {
+                        available: available.quartz - cost.quartz
+                    }
+                )
+            );
             set !(ctx, planet_id.into(), (QuartzMine { level: mine.level + 1 }));
         } else if building_id == BuildingType::TRITIUM_MINE {
             let mine = get !(ctx, planet_id.into(), TritiumMine);
             let cost: Cost = tritium_mine_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
+            set !(
+                ctx,
+                planet_id.into(),
+                (
+                    Steel {
+                        available: available.steel - cost.steel
+                        }, Quartz {
+                        available: available.quartz - cost.quartz
+                    }
+                )
+            );
             set !(ctx, planet_id.into(), (TritiumMine { level: mine.level + 1 }));
         } else if building_id == BuildingType::ENERGY_PLANT {
             let mine = get !(ctx, planet_id.into(), EnergyPlant);
             let cost: Cost = energy_plant_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
+            set !(
+                ctx,
+                planet_id.into(),
+                (
+                    Steel {
+                        available: available.steel - cost.steel
+                        }, Quartz {
+                        available: available.quartz - cost.quartz
+                    }
+                )
+            );
             set !(ctx, planet_id.into(), (EnergyPlant { level: mine.level + 1 }));
         }
         return ();
