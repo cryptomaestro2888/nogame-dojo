@@ -1,2 +1,2 @@
 mod init;
-mod buildings_upgrade;
+mod mines_upgrade;
