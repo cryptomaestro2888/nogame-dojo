@@ -1,14 +1,13 @@
 [package]
-name = "dojo_examples"
+name = "nogame"
 version = "0.1.0"
-cairo-version = "1.1.0"
-
+cairo-version = ">=2.0.0-rc0"
 
 [cairo]
 sierra-replace-ids = true
 
 [dependencies]
-dojo_core = { git = "https://github.com/dojoengine/dojo", version = "0.1.0"}
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "nightly-19293e5e065e14ecda25118b1e35a486de638fe4"}
 
 [[target.dojo]]
 
