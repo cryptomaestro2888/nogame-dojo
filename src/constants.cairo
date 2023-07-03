@@ -1,11 +1,11 @@
-mod ResourceType {
+mod resources_types {
     const STEEL: u8 = 1;
     const QUARTZ: u8 = 2;
     const TRITIUM: u8 = 3;
     const ENERGY: u8 = 4;
 }
 
-mod BuildingType {
+mod buildings_types {
     const STEEL_MINE: u8 = 5;
     const QUARTZ_MINE: u8 = 6;
     const TRITIUM_MINE: u8 = 7;
@@ -14,7 +14,7 @@ mod BuildingType {
     const RESEARCH_LAB: u8 = 10;
 }
 
-mod ShipType {
+mod ships_types {
     const ARMADE: u8 = 11;
     const CARRIER: u8 = 12;
     const CELESTIA: u8 = 13;
@@ -47,7 +47,7 @@ mod EngineType {
     const WARPTRANSPOSER: u8 = 26;
 }
 
-mod TechType {
+mod tech_type {
     const ARMOUR_DEVELOPMENT: u8 = 27;
     const BEAM_TECHNOLOGY: u8 = 28;
     const COMBUSTIVE_ENGINE: u8 = 29;
@@ -62,7 +62,7 @@ mod TechType {
     const WARP_DRIVE: u8 = 38;
 }
 
-mod MinesConst {
+mod mines_const {
     const MAX_STEEL_OVERFLOW: u128 = 17850;
     const MAX_QUARZ_OVERFLOW: u128 = 11900;
     const MAX_TRITIUM_OVERFLOW: u128 = 5950;

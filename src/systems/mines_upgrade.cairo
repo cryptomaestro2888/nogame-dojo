@@ -1,21 +1,25 @@
 #[system]
-mod MinesUpgrade {
+mod mines_upgrade {
     use integer::U128Div;
     use traits::Into;
+
+    use dojo::world::Context;
+
     use nogame::components::buildings::{SteelMine, QuartzMine, TritiumMine, EnergyPlant};
-    use nogame::constants::{BuildingType, MinesConst};
+    use nogame::constants::{buildings_types, mines_const};
     use nogame::components::resources::{Steel, Quartz, Tritium};
-    use nogame::utils::Utils::{Cost, pow};
+    use nogame::components::cost::Cost;
+    use nogame::utils::formulas::pow;
 
     fn execute(ctx: Context, planet_id: u32, building_id: u8) { // match building_id {
-        let (s, q, t) = get !(ctx, planet_id.into(), (Steel, Quartz, Tritium));
+        let (s, q, t) = get !(ctx.world, planet_id.into(), (Steel, Quartz, Tritium));
         let available = Cost { steel: s.available, quartz: q.available, tritium: t.available };
-        if building_id == BuildingType::STEEL_MINE {
-            let mine = get !(ctx, planet_id.into(), SteelMine);
+        if building_id == buildings_types::STEEL_MINE {
+            let mine = get !(ctx.world, planet_id.into(), SteelMine);
             let cost: Cost = steel_mine_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
             set !(
-                ctx,
+                ctx.world,
                 planet_id.into(),
                 (
                     Steel {
@@ -25,13 +29,13 @@ mod MinesUpgrade {
                     }
                 )
             );
-            set !(ctx, planet_id.into(), (SteelMine { level: mine.level + 1 }));
-        } else if building_id == BuildingType::QUARTZ_MINE {
-            let mine = get !(ctx, planet_id.into(), QuartzMine);
+            set !(ctx.world, planet_id.into(), (SteelMine { level: mine.level + 1 }));
+        } else if building_id == buildings_types::QUARTZ_MINE {
+            let mine = get !(ctx.world, planet_id.into(), QuartzMine);
             let cost: Cost = quartz_mine_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
             set !(
-                ctx,
+                ctx.world,
                 planet_id.into(),
                 (
                     Steel {
@@ -41,13 +45,13 @@ mod MinesUpgrade {
                     }
                 )
             );
-            set !(ctx, planet_id.into(), (QuartzMine { level: mine.level + 1 }));
-        } else if building_id == BuildingType::TRITIUM_MINE {
-            let mine = get !(ctx, planet_id.into(), TritiumMine);
+            set !(ctx.world, planet_id.into(), (QuartzMine { level: mine.level + 1 }));
+        } else if building_id == buildings_types::TRITIUM_MINE {
+            let mine = get !(ctx.world, planet_id.into(), TritiumMine);
             let cost: Cost = tritium_mine_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
             set !(
-                ctx,
+                ctx.world,
                 planet_id.into(),
                 (
                     Steel {
@@ -57,13 +61,13 @@ mod MinesUpgrade {
                     }
                 )
             );
-            set !(ctx, planet_id.into(), (TritiumMine { level: mine.level + 1 }));
-        } else if building_id == BuildingType::ENERGY_PLANT {
-            let mine = get !(ctx, planet_id.into(), EnergyPlant);
+            set !(ctx.world, planet_id.into(), (TritiumMine { level: mine.level + 1 }));
+        } else if building_id == buildings_types::ENERGY_PLANT {
+            let mine = get !(ctx.world, planet_id.into(), EnergyPlant);
             let cost: Cost = energy_plant_cost(mine.level.into());
             assert_enough_resources(planet_id, available, cost);
             set !(
-                ctx,
+                ctx.world,
                 planet_id.into(),
                 (
                     Steel {
@@ -73,7 +77,7 @@ mod MinesUpgrade {
                     }
                 )
             );
-            set !(ctx, planet_id.into(), (EnergyPlant { level: mine.level + 1 }));
+            set !(ctx.world, planet_id.into(), (EnergyPlant { level: mine.level + 1 }));
         }
         return ();
     }
@@ -135,7 +139,7 @@ mod MinesUpgrade {
             );
             u256 { low: production, high: 0 }
         } else {
-            let production = MinesConst::MAX_STEEL_OVERFLOW * (current_level - 31);
+            let production = mines_const::MAX_STEEL_OVERFLOW * (current_level - 31);
             u256 { low: production, high: 0 }
         }
     }
@@ -149,7 +153,7 @@ mod MinesUpgrade {
             );
             u256 { low: production, high: 0 }
         } else {
-            let production = MinesConst::MAX_QUARZ_OVERFLOW * (current_level - 31);
+            let production = mines_const::MAX_QUARZ_OVERFLOW * (current_level - 31);
             u256 { low: production, high: 0 }
         }
     }
@@ -163,7 +167,7 @@ mod MinesUpgrade {
             );
             u256 { low: production, high: 0 }
         } else {
-            let production = MinesConst::MAX_TRITIUM_OVERFLOW * (current_level - 31);
+            let production = mines_const::MAX_TRITIUM_OVERFLOW * (current_level - 31);
             u256 { low: production, high: 0 }
         }
     }
@@ -174,7 +178,7 @@ mod MinesUpgrade {
         } else if current_level <= 31 {
             U128Div::div(20 * current_level * pow(11, current_level), pow(10, current_level)) + 30
         } else {
-            MinesConst::MAX_QUARZ_OVERFLOW * (current_level - 31)
+            mines_const::MAX_QUARZ_OVERFLOW * (current_level - 31)
         }
     }
 
@@ -184,7 +188,7 @@ mod MinesUpgrade {
         } else if current_level <= 31 {
             U128Div::div(10 * current_level * pow(11, current_level), pow(10, current_level))
         } else {
-            MinesConst::MAX_TRITIUM_OVERFLOW * (current_level - 31)
+            mines_const::MAX_TRITIUM_OVERFLOW * (current_level - 31)
         }
     }
 
@@ -194,7 +198,7 @@ mod MinesUpgrade {
         } else if current_level <= 31 {
             U128Div::div(20 * current_level * pow(11, current_level), pow(10, current_level))
         } else {
-            MinesConst::MAX_QUARZ_OVERFLOW * (current_level - 31)
+            mines_const::MAX_QUARZ_OVERFLOW * (current_level - 31)
         }
     }
 
