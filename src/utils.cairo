@@ -1,11 +1,4 @@
-mod Utils {
-    #[derive(Copy, Drop, Serde)]
-    struct Cost {
-        steel: u128,
-        quartz: u128,
-        tritium: u128,
-    }
-
+mod formulas {
     fn pow(mut base: u128, mut power: u128) -> u128 {
         // Return invalid input error
         if base == 0 {
